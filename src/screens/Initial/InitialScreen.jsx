@@ -1,9 +1,10 @@
 import {View, Text} from 'react-native';
 import React from 'react';
+import styles from './styles';
 
 const InitialScreen = () => {
   return (
-    <View>
+    <View style={styles.container}>
       <Text>InitialScreen</Text>
     </View>
   );

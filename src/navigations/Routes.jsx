@@ -1,14 +1,14 @@
-import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
-import AppStack from './AppStack';
+import {NavigationContainer} from '@react-navigation/native';
 import AuthStack from './AuthStack';
+import AppStack from './AppStack';
 
-const Routes = () => {
+const RoutesStack = () => {
   return (
     <NavigationContainer>
-      {!!true ? <AppStack /> : <AuthStack />}
+      {false ? <AppStack /> : <AuthStack />}
     </NavigationContainer>
   );
 };
 
-export default Routes;
+export default RoutesStack;
