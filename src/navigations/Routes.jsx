@@ -6,7 +6,7 @@ import AuthStack from './AuthStack';
 const Routes = () => {
   return (
     <NavigationContainer>
-      {false ? <AppStack /> : <AuthStack />}
+      {!!true ? <AppStack /> : <AuthStack />}
     </NavigationContainer>
   );
 };

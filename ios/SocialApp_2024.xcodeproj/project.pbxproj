@@ -12,9 +12,13 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		4BDDCB47561C49058278AB57 /* Barlow-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 094D432E4E584908B0D5F0FA /* Barlow-Medium.ttf */; };
 		55A6E9B4E75F37A984A51BE1 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = ADAABC8772CDF97B5AB5F2B2 /* PrivacyInfo.xcprivacy */; };
 		7699B88040F8A987B510C191 /* libPods-SocialApp_2024-SocialApp_2024Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-SocialApp_2024-SocialApp_2024Tests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		93F5FEB0F21F4A8093642B05 /* Barlow-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7DF7F2090E344D6781241874 /* Barlow-Bold.ttf */; };
+		B0FB0B32D3C24A67A537EA03 /* Barlow-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04B38642E93A4260AD130287 /* Barlow-SemiBold.ttf */; };
+		CEE33C24F66548BBAB714759 /* Barlow-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8ECBEDA726C64B54AFD72E1D /* Barlow-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +35,8 @@
 		00E356EE1AD99517003FC87E /* SocialApp_2024Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SocialApp_2024Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* SocialApp_2024Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SocialApp_2024Tests.m; sourceTree = "<group>"; };
+		04B38642E93A4260AD130287 /* Barlow-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-SemiBold.ttf"; path = "../src/assets/fonts/Barlow-SemiBold.ttf"; sourceTree = "<group>"; };
+		094D432E4E584908B0D5F0FA /* Barlow-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Medium.ttf"; path = "../src/assets/fonts/Barlow-Medium.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* SocialApp_2024.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SocialApp_2024.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = SocialApp_2024/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = SocialApp_2024/AppDelegate.mm; sourceTree = "<group>"; };
@@ -43,8 +49,10 @@
 		5709B34CF0A7D63546082F79 /* Pods-SocialApp_2024.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SocialApp_2024.release.xcconfig"; path = "Target Support Files/Pods-SocialApp_2024/Pods-SocialApp_2024.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-SocialApp_2024-SocialApp_2024Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SocialApp_2024-SocialApp_2024Tests.debug.xcconfig"; path = "Target Support Files/Pods-SocialApp_2024-SocialApp_2024Tests/Pods-SocialApp_2024-SocialApp_2024Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-SocialApp_2024.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SocialApp_2024.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DF7F2090E344D6781241874 /* Barlow-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Bold.ttf"; path = "../src/assets/fonts/Barlow-Bold.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SocialApp_2024/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-SocialApp_2024-SocialApp_2024Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SocialApp_2024-SocialApp_2024Tests.release.xcconfig"; path = "Target Support Files/Pods-SocialApp_2024-SocialApp_2024Tests/Pods-SocialApp_2024-SocialApp_2024Tests.release.xcconfig"; sourceTree = "<group>"; };
+		8ECBEDA726C64B54AFD72E1D /* Barlow-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Regular.ttf"; path = "../src/assets/fonts/Barlow-Regular.ttf"; sourceTree = "<group>"; };
 		ADAABC8772CDF97B5AB5F2B2 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = SocialApp_2024/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -127,6 +135,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				E6F3BB520CBF487B88BCFCE5 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -151,6 +160,18 @@
 				89C6BE57DB24E9ADA2F236DE /* Pods-SocialApp_2024-SocialApp_2024Tests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		E6F3BB520CBF487B88BCFCE5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7DF7F2090E344D6781241874 /* Barlow-Bold.ttf */,
+				094D432E4E584908B0D5F0FA /* Barlow-Medium.ttf */,
+				8ECBEDA726C64B54AFD72E1D /* Barlow-Regular.ttf */,
+				04B38642E93A4260AD130287 /* Barlow-SemiBold.ttf */,
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -249,6 +270,10 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				55A6E9B4E75F37A984A51BE1 /* PrivacyInfo.xcprivacy in Resources */,
+				93F5FEB0F21F4A8093642B05 /* Barlow-Bold.ttf in Resources */,
+				4BDDCB47561C49058278AB57 /* Barlow-Medium.ttf in Resources */,
+				CEE33C24F66548BBAB714759 /* Barlow-Regular.ttf in Resources */,
+				B0FB0B32D3C24A67A537EA03 /* Barlow-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
