@@ -13,19 +13,14 @@ import {useSelector} from 'react-redux';
 
 // create a component
 const WrapperContainer = ({style = {}, children}) => {
-  const {selectedTheme} = useSelector(state => state?.appSetting);
-
   return (
     <View
       style={{
         ...styles.container,
         ...style,
-        backgroundColor:
-          selectedTheme == 'dark' ? colors.themeColor : colors.whiteColor,
+        backgroundColor: colors.themeColor,
       }}>
-      <StatusBar
-        barStyle={selectedTheme == 'dark' ? 'light-content' : 'dark-content'}
-      />
+      <StatusBar barStyle={'dark-content'} />
       <SafeAreaView style={{flex: 1}}>{children}</SafeAreaView>
     </View>
   );

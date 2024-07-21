@@ -22,8 +22,6 @@ const TextInputComp = ({
   placeholderTextColor = colors.whiteColorOpacity70,
   ...props
 }) => {
-  const {lang} = useSelector(state => state?.appSetting);
-
   return (
     <View
       style={{
@@ -34,7 +32,6 @@ const TextInputComp = ({
         style={{
           ...styles.textStyle,
           ...textStyle,
-          textAlign: lang == 'ar' ? 'right' : 'left',
         }}
         value={value}
         onChangeText={onChangeText}

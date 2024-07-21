@@ -8,13 +8,10 @@ import {textScale} from '../styles/responsiveSize';
 
 // create a component
 const TextComp = ({text = '', style = {}, children, ...props}) => {
-  const {selectedTheme} = useSelector(state => state?.appSetting);
-
   return (
     <Text
       style={{
         ...styles.textStyle,
-        color: selectedTheme == 'dark' ? colors.whiteColor : colors.blackColor,
         ...style,
       }}
       {...props}>

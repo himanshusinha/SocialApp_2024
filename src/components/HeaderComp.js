@@ -21,7 +21,6 @@ const HeaderComp = ({
   rightImage = null,
 }) => {
   const navigation = useNavigation();
-  const {selectedTheme} = useSelector(state => state?.appSetting);
 
   return (
     <View style={{...styles.container, ...style}}>
@@ -32,10 +31,7 @@ const HeaderComp = ({
             onPress={!!onPressLeft ? onPressLeft : () => navigation.goBack()}>
             <Image
               style={{
-                tintColor:
-                  selectedTheme == 'dark'
-                    ? colors.whiteColor
-                    : colors.blackColor,
+                tintColor: (selectedTheme = colors.themeColor),
               }}
               source={imagePath.icBack}
             />
@@ -59,8 +55,7 @@ const HeaderComp = ({
         <TouchableOpacity onPress={onPressRight}>
           <Image
             style={{
-              tintColor:
-                selectedTheme == 'dark' ? colors.whiteColor : colors.blackColor,
+              tintColor: colors.whiteColor,
             }}
             source={rightImage}
           />

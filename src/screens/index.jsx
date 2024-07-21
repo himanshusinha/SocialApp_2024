@@ -14,4 +14,5 @@ export {default as WebViewScreen} from '../screens/WebView/WebViewScreen';
 export {default as OtpVerificationScreen} from '../screens/OtpVerification/OtpVerificationScreen';
 export {default as LinkScreen} from '../screens/Links/LinksScreen';
 export {default as PostDetailScreen} from '../screens/PostDetails/PostDetailsScreen';
+export {default as ForgotScreen} from '../screens/Forgot/ForgotScreen';
 export {default as TabRoutes} from '../navigations/TabRoutes';

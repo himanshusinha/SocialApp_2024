@@ -10,7 +10,11 @@ import {
 } from 'react-native';
 import colors from '../styles/colors';
 import fontFamily from '../styles/fontFamily';
-import {moderateScale, textScale} from '../styles/responsiveSize';
+import {
+  moderateScale,
+  moderateScaleVertical,
+  textScale,
+} from '../styles/responsiveSize';
 
 // create a component
 const ButtonComp = ({

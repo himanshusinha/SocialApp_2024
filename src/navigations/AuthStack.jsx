@@ -34,6 +34,12 @@ const AuthStack = () => {
         component={Screens.WebViewScreen}
         options={{headerShown: false}}
       />
+
+      <Stack.Screen
+        name={navigationStrings.FORGOT_SCREEN}
+        component={Screens.ForgotScreen}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };
