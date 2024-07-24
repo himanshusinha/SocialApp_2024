@@ -14,7 +14,6 @@ import {
 } from '../styles/responsiveSize';
 import fontFamily from '../styles/fontFamily';
 import colors from '../styles/colors';
-import {useSelector} from 'react-redux';
 
 // create a component
 const SearchBar = ({
@@ -27,8 +26,6 @@ const SearchBar = ({
   placeholderTextColor = colors.whiteColorOpacity70,
   ...props
 }) => {
-  const {lang, selectedTheme} = useSelector(state => state?.appSetting);
-
   return (
     <View
       style={{
@@ -39,7 +36,6 @@ const SearchBar = ({
         style={{
           ...styles.textStyle,
           ...textStyle,
-          textAlign: lang == 'ar' ? 'right' : 'left',
         }}
         value={value}
         onChangeText={onChangeText}

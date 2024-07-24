@@ -14,7 +14,7 @@ const AppStack = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name={navigationStrings.PROFILE_SCREEN}
+        name={navigationStrings.PROFILE_EDIT_SCREEN}
         component={Screens.ProfileEditScreen}
         options={{headerShown: false}}
       />
@@ -51,6 +51,11 @@ const AppStack = () => {
       <Stack.Screen
         name={navigationStrings.HOME_SCREEN}
         component={Screens.HomeScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={navigationStrings.PROFILE_SCREEN}
+        component={Screens.ProfileScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

@@ -2175,6 +2175,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-camera-roll/camera-roll@npm:^7.8.3":
+  version: 7.8.3
+  resolution: "@react-native-camera-roll/camera-roll@npm:7.8.3"
+  peerDependencies:
+    react-native: ">=0.59"
+  checksum: 1465566ed52b6e1478debcebc1bcaecbd6752611064d7fd5a0c4ed06deb702626ebd945c7ca664d5d070f822a4d3338e5dbb447a9acb27adb35dd77f8bfba2f9
+  languageName: node
+  linkType: hard
+
 "@react-native-community/cli-clean@npm:13.6.9":
   version: 13.6.9
   resolution: "@react-native-community/cli-clean@npm:13.6.9"
@@ -2711,6 +2720,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@shopify/flash-list@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "@shopify/flash-list@npm:1.7.0"
+  dependencies:
+    recyclerlistview: 4.2.1
+    tslib: 2.6.3
+  peerDependencies:
+    "@babel/runtime": "*"
+    react: "*"
+    react-native: "*"
+  checksum: d9cccd4c53f0957ecea071600d4297611c7dc00ca318dfbae4ff92ed34104340eaacb60a1f38c7165dd8f61e65c59acc7f7b627b21ca3abcec739da9e129d538
+  languageName: node
+  linkType: hard
+
 "@sideway/address@npm:^4.1.5":
   version: 4.1.5
   resolution: "@sideway/address@npm:4.1.5"
@@ -3143,6 +3166,7 @@ __metadata:
     "@babel/preset-env": ^7.20.0
     "@babel/runtime": ^7.20.0
     "@react-native-async-storage/async-storage": ^1.24.0
+    "@react-native-camera-roll/camera-roll": ^7.8.3
     "@react-native/babel-preset": 0.74.85
     "@react-native/eslint-config": 0.74.85
     "@react-native/metro-config": 0.74.85
@@ -3151,6 +3175,7 @@ __metadata:
     "@react-navigation/native": ^6.1.18
     "@react-navigation/native-stack": ^6.10.1
     "@reduxjs/toolkit": ^2.2.6
+    "@shopify/flash-list": ^1.7.0
     "@types/react": ^18.2.6
     "@types/react-test-renderer": ^18.0.0
     add: ^2.0.6
@@ -3163,9 +3188,11 @@ __metadata:
     react-native: 0.74.3
     react-native-fast-image: ^8.6.3
     react-native-gesture-handler: ^2.17.1
+    react-native-image-crop-picker: ^0.41.2
     react-native-keyboard-aware-scroll-view: ^0.9.5
     react-native-localization: ^2.3.2
     react-native-modal: ^13.0.1
+    react-native-otp-textinput: ^1.1.6
     react-native-restart: ^0.0.27
     react-native-safe-area-context: ^4.10.8
     react-native-screens: ^3.32.0
@@ -6947,7 +6974,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash.debounce@npm:^4.0.8":
+"lodash.debounce@npm:4.0.8, lodash.debounce@npm:^4.0.8":
   version: 4.0.8
   resolution: "lodash.debounce@npm:4.0.8"
   checksum: a3f527d22c548f43ae31c861ada88b2637eb48ac6aa3eb56e82d44917971b8aa96fbb37aa60efea674dc4ee8c42074f90f7b1f772e9db375435f6c83a19b3bc6
@@ -8161,7 +8188,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:15.8.1, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -8320,6 +8347,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-image-crop-picker@npm:^0.41.2":
+  version: 0.41.2
+  resolution: "react-native-image-crop-picker@npm:0.41.2"
+  peerDependencies:
+    react-native: ">=0.40.0"
+  checksum: c1333b3b761e948bd0bc856773f68dcc859c7ce39dda3e14d2c32c17d55927735bfc5cbbb7ac5e8bac21feda87c93399f2a596aca7d5b0611cc1e8203d97ad2e
+  languageName: node
+  linkType: hard
+
 "react-native-iphone-x-helper@npm:^1.0.3":
   version: 1.3.1
   resolution: "react-native-iphone-x-helper@npm:1.3.1"
@@ -8367,6 +8403,16 @@ __metadata:
     react: "*"
     react-native: ">=0.65.0"
   checksum: 15985fd6aaae7a2134ec1003c63abd384f4a17beabd0a80b74033c98eccee29161aa07150f479373fb43106cfb33b5837b7a4f1d2b721ff03b3727490c830a07
+  languageName: node
+  linkType: hard
+
+"react-native-otp-textinput@npm:^1.1.6":
+  version: 1.1.6
+  resolution: "react-native-otp-textinput@npm:1.1.6"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 8527954918677d196485562ca59e4e031f5bb3da6b91f397b8f045ce40f55e81d7840c35b63de79d930e3e0a48beef045ae1c00ac565d8fba34371516e4d374b
   languageName: node
   linkType: hard
 
@@ -8569,6 +8615,20 @@ __metadata:
     source-map: ~0.6.1
     tslib: ^2.0.1
   checksum: 03cc7f57562238ba258d468be67bf7446ce7a707bc87a087891dad15afead46c36e9aaeedf2130e2ab5a465244a9c62bfd4127849761cf8f4085abe2f3e5f485
+  languageName: node
+  linkType: hard
+
+"recyclerlistview@npm:4.2.1":
+  version: 4.2.1
+  resolution: "recyclerlistview@npm:4.2.1"
+  dependencies:
+    lodash.debounce: 4.0.8
+    prop-types: 15.8.1
+    ts-object-utils: 0.0.5
+  peerDependencies:
+    react: ">= 15.2.1"
+    react-native: ">= 0.30.0"
+  checksum: 48e84937f803ac2acb510b2bc36b3ef1ea9c5383540a832f80c87d7e7f933b26c59e4ffc2d7de529be55e14a8d551c4f6660a450ad220142f351e6bf6e630450
   languageName: node
   linkType: hard
 
@@ -9620,17 +9680,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ts-object-utils@npm:0.0.5":
+  version: 0.0.5
+  resolution: "ts-object-utils@npm:0.0.5"
+  checksum: 83c48fbdaba392fb2c01cea53b267ed5538d2bb44fc6c3eecc10bcfabc1780bfa6ec8569b52bbf0140d9b521d9049d5f15884e12286918244d463d854dbc73cb
+  languageName: node
+  linkType: hard
+
+"tslib@npm:2.6.3, tslib@npm:^2.0.1":
+  version: 2.6.3
+  resolution: "tslib@npm:2.6.3"
+  checksum: 74fce0e100f1ebd95b8995fbbd0e6c91bdd8f4c35c00d4da62e285a3363aaa534de40a80db30ecfd388ed7c313c42d930ee0eaf108e8114214b180eec3dbe6f5
+  languageName: node
+  linkType: hard
+
 "tslib@npm:^1.8.1":
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: dbe628ef87f66691d5d2959b3e41b9ca0045c3ee3c7c7b906cc1e328b39f199bb1ad9e671c39025bd56122ac57dfbf7385a94843b1cc07c60a4db74795829acd
-  languageName: node
-  linkType: hard
-
-"tslib@npm:^2.0.1":
-  version: 2.6.3
-  resolution: "tslib@npm:2.6.3"
-  checksum: 74fce0e100f1ebd95b8995fbbd0e6c91bdd8f4c35c00d4da62e285a3363aaa534de40a80db30ecfd388ed7c313c42d930ee0eaf108e8114214b180eec3dbe6f5
   languageName: node
   linkType: hard
 
