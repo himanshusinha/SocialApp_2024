@@ -1,13 +1,19 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import FlashMessage, {showMessage} from 'react-native-flash-message';
 
-export const storeData = async (key, value) => {
-  try {
-    var jsonValue = value;
-    if (typeof value !== 'string') {
-      jsonValue = JSON.stringify(value);
-    }
-    await AsyncStorage.setItem(key, jsonValue);
-  } catch (e) {
-    return e;
-  }
+export const showError = message => {
+  showMessage({
+    type: 'danger',
+    icon: 'danger',
+    message,
+    duration: 2500,
+  });
+};
+
+export const showSucess = message => {
+  showMessage({
+    type: 'success',
+    icon: 'success',
+    message,
+    duration: 2500,
+  });
 };

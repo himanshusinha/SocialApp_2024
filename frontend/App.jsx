@@ -1,16 +1,18 @@
 import React from 'react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-export const baseurl = 'https://api.injazrent.ae';
+export const baseurl = 'http://localhost:3000';
 import axios from 'axios';
 import {PersistGate} from 'redux-persist/integration/react';
 import {Provider} from 'react-redux';
-import Routes from './src/navigations/Routes';
+import Routes from './src/navigations/RoutesStack';
 import {StatusBar} from 'react-native';
 import colors from './src/styles/colors';
 import {LogBox} from 'react-native';
 import {persistor, store} from './src/redux/store';
 LogBox.ignoreLogs(['Warning: ...']);
 console.disableYellowBox = true;
+import FlashMessage from 'react-native-flash-message';
+import RoutesStack from './src/navigations/RoutesStack';
 
 const App = () => {
   axios.defaults.baseURL = baseurl;
@@ -24,8 +26,9 @@ const App = () => {
             hidden={true}
             barStyle="dark-content"
           />
-          <Routes />
+          <RoutesStack />
         </PersistGate>
+        <FlashMessage position="top" />
       </Provider>
     </GestureHandlerRootView>
   );

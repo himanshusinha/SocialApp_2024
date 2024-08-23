@@ -19,3 +19,22 @@ export const loginService = data => {
       });
   });
 };
+
+export const signupService = data => {
+  return new Promise((resolve, reject) => {
+    const config = {
+      url: SERVICE_ROUTES.SIGN_UP,
+      method: METHODS.POST,
+      data,
+    };
+
+    Axios.request(config)
+      .then(res => {
+        console.log(res, '.......response from signup services');
+        resolve(res);
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+};

@@ -31,4 +31,8 @@ export default {
   icSend: require('../assets/images/ic_send.png'),
   icChat: require('../assets/images/chatIcon.png'),
   icGroup: require('../assets/images/icGroup.png'),
+  success: require('../assets/images/success.png'),
+  error: require('../assets/images/error.png'),
+  warning: require('../assets/images/warning.png'),
+  info: require('../assets/images/info.png'),
 };

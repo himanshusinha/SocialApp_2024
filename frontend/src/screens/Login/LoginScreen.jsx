@@ -9,21 +9,63 @@ import ButtonComp from '../../components/ButttonComp';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles';
 import {useNavigation} from '@react-navigation/native';
-import navigationStrings from '../../navigations/navigationStrings';
+import {loginAsyncThunk} from '../../redux/asyncThunk/AsyncThunk';
+import validator from '../../utils/validations';
+import {showError, showSucess} from '../../utils/helperFunction';
+import {useDispatch} from 'react-redux';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [secureText, setSecureText] = useState(true);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [token, setToken] = useState('');
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const isValidData = () => {
-    // Your validation logic
+    const error = validator({
+      email,
+      password,
+    });
+
+    if (error) {
+      showError(error);
+      return false;
+    }
+    return true;
   };
 
-  const onLogin = async () => {
-    // Your login logic
-    navigation.navigate(navigationStrings.OTP_VERIFICATION_SCREEN);
+  const onPressLogin = async () => {
+    const checkValid = isValidData();
+
+    if (!checkValid) return;
+
+    setIsLoading(true);
+
+    const payload = {
+      email,
+      password,
+    };
+
+    try {
+      const res = await dispatch(loginAsyncThunk(payload)).unwrap();
+      await setToken(res.data.token, '.....token');
+      setIsLoading(false);
+      showSucess('Login successful!');
+    } catch (error) {
+      let errorMessage = 'Invalid email or password';
+      setIsLoading(false);
+
+      if (error.response) {
+        errorMessage = error.response.data?.message || errorMessage;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+
+      console.log('Error raised:', error);
+      showError(errorMessage);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -49,6 +91,8 @@ const LoginScreen = () => {
                 value={email}
                 placeholder={strings.EMAIL}
                 onChangeText={value => setEmail(value)}
+                autoCapitalize={'none'}
+                autoCorrect={false}
               />
 
               <TextInputComp
@@ -58,6 +102,8 @@ const LoginScreen = () => {
                 secureTextEntry={secureText}
                 secureText={secureText ? strings.SHOW : strings.HIDE}
                 onPressSecure={() => setSecureText(!secureText)}
+                autoCapitalize={'none'}
+                autoCorrect={false}
               />
 
               <Text style={styles.forgotPasswordText}>
@@ -68,7 +114,7 @@ const LoginScreen = () => {
             <View style={styles.buttonContainer}>
               <ButtonComp
                 text={strings.LOGIN}
-                onPress={onLogin}
+                onPress={onPressLogin}
                 isLoading={isLoading}
               />
             </View>

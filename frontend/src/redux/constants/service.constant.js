@@ -1,5 +1,6 @@
 export const SERVICE_ROUTES = {
-  LOGIN: 'http://178.16.137.59:8000/api/v1/users/login',
+  LOGIN: '/login',
+  SIGN_UP: '/signup',
 };
 export const METHODS = {
   GET: 'GET',

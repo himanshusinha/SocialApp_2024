@@ -20,6 +20,8 @@ const TextInputComp = ({
   inputStyle = {},
   textStyle = {},
   placeholderTextColor = colors.whiteColorOpacity70,
+  autoCapitalize,
+  autoCorrect,
   ...props
 }) => {
   return (
@@ -37,6 +39,8 @@ const TextInputComp = ({
         onChangeText={onChangeText}
         placeholder={placeholder}
         placeholderTextColor={placeholderTextColor}
+        autoCapitalize={autoCapitalize}
+        autoCorrect={autoCorrect}
         {...props}
       />
       {!!secureText ? (

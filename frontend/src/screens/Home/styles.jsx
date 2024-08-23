@@ -5,12 +5,15 @@ import {
   moderateScale,
   moderateScaleVertical,
   textScale,
-  width,
 } from '../../styles/responsiveSize';
 import fontFamily from '../../styles/fontFamily';
 
 // define your styles
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: moderateScale(8),
+  },
   boxStyle: {
     backgroundColor: colors.gray2,
     borderRadius: moderateScale(8),
@@ -52,6 +55,18 @@ const styles = StyleSheet.create({
   notDataFound: {
     fontSize: textScale(24),
     fontFamily: fontFamily.regular,
+  },
+  separator: {
+    height: moderateScale(20),
+  },
+  innerContainer: {
+    flex: 1,
+  },
+  commentLikeContainer: {
+    flexDirection: 'row',
+  },
+  commentText: {
+    marginRight: moderateScale(8),
   },
 });
 
