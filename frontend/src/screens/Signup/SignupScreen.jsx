@@ -14,6 +14,7 @@ import {signupAsyncThunk} from '../../redux/asyncThunk/AsyncThunk';
 import navigationStrings from '../../navigations/navigationStrings';
 import {showError, showSucess} from '../../utils/helperFunction';
 import validator from '../../utils/validations';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignupScreen = () => {
   const [userName, setUserName] = useState('');
@@ -57,6 +58,17 @@ const SignupScreen = () => {
 
     try {
       const res = await dispatch(signupAsyncThunk(payload)).unwrap();
+      const userId = res?.data?._id;
+      const token = res?.data?.token;
+
+      if (userId) {
+        // Save userId and token in AsyncStorage
+        await AsyncStorage.setItem('userId', userId);
+      }
+      if (token) {
+        // Save token in AsyncStorage
+        await AsyncStorage.setItem('token', token);
+      }
       setIsLoading(false);
       showSucess('Signup successful!');
       navigation.navigate(navigationStrings.OTP_VERIFICATION_SCREEN, {

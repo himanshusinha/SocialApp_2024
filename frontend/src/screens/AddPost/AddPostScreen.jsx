@@ -63,7 +63,12 @@ const AddPost = ({navigation, route}) => {
       {text: 'Cancel', onPress: () => {}},
     ]);
   };
-
+  const onSave = () => {
+    if (images.length == 0) {
+      Alert.alert('Please upload at least one photo');
+      return;
+    }
+  };
   const openCamera = () => {
     try {
       const image = ImagePicker.openCamera({mediaType: 'photo'});
@@ -130,7 +135,7 @@ const AddPost = ({navigation, route}) => {
           />
         </View>
 
-        <ButtonComp text={strings.SAVE} />
+        <ButtonComp text={strings.SAVE} onPress={() => onSave()} />
       </View>
     </WrapperContainer>
   );

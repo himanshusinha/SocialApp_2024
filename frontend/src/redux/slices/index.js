@@ -1,9 +1,10 @@
 import {combineReducers} from '@reduxjs/toolkit';
-import authReducer from '../slices/auth_slices'; // Ensure this is the correct path
+import authReducer from '../slices/auth_slices';
+import postReducer from '../slices/post_slice';
 
 const rootReducers = combineReducers({
   auth: authReducer,
-  // Add other reducers here
+  post: postReducer,
 });
 
 export default rootReducers;

@@ -2,6 +2,8 @@ export const SERVICE_ROUTES = {
   LOGIN: '/login',
   SIGN_UP: '/signup',
   OTP_VERIFY: '/otpVerify',
+  CREATE_POSTS: '/createPost',
+  ALL_POSTS: '/allPost',
 };
 export const METHODS = {
   GET: 'GET',

@@ -1,6 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {ASYNC_ROUTES} from '../constants/redux.constant';
 import {
+  getAllPostsService,
   loginService,
   otpVerifyService,
   signupService,
@@ -34,6 +35,18 @@ export const OtpVerifyAsyncThunk = createAsyncThunk(
   async (payload, {rejectWithValue}) => {
     try {
       const response = await otpVerifyService(payload);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
+export const getAllPostAsyncThunk = createAsyncThunk(
+  ASYNC_ROUTES.ALL_POST,
+  async ({userId, page, limit}, {rejectWithValue}) => {
+    try {
+      const response = await getAllPostsService({userId, page, limit});
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);

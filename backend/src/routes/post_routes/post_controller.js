@@ -1,19 +1,17 @@
 const {default: mongoose} = require('mongoose');
 const PostModel = require('../../models/post');
-const base_url = 'http://localhost:3000/';
 
 const createPost = async (req, res) => {
   try {
     const files = req.files;
-
-    const media = files.map(val => {
+    const media = files.map((val, i) => {
       return {
-        type: val.mimetype === 'video/mp4' ? 'video' : 'image',
-        url: base_url + val.filename,
+        type: val.mimetype == 'video/mp4' ? 'video' : 'image',
+        url: val.location,
       };
     });
     req.body.media = media;
-    console.log(req.body);
+    // console.log(req.body)
     const result = await PostModel.create(req.body);
     res.send({
       data: result,
@@ -24,15 +22,37 @@ const createPost = async (req, res) => {
   }
 };
 
+const fileUpload = async (req, res) => {
+  if (!req?.file) {
+    res.status(403).json({status: false, error: 'please upload a file'});
+    return;
+  }
+  let data = {};
+  if (!!req?.file) {
+    data = {
+      url: req.file.location,
+      type: req.file.mimetype,
+    };
+  }
+  try {
+    res.send({
+      data: data,
+      status: true,
+    });
+  } catch (error) {
+    res.status(403).json({status: false, error: error});
+  }
+};
+
 const allPosts = async (req, res) => {
-  console.log('all post', req.query);
+  // console.log("all post", req.query)
 
   const limit = parseInt(req.query.limit) || 10;
   const page = parseInt(req.query.page) || 1;
   const userId = req.query.userId;
 
   const totalPosts = await PostModel.countDocuments({});
-  console.log('totalPosts', totalPosts);
+  // console.log("totalPosts", totalPosts)
 
   const totalPages = Math.ceil(totalPosts / limit);
   const startIndex = (page - 1) * limit;
@@ -69,20 +89,27 @@ const allPosts = async (req, res) => {
           },
         },
       },
+
+      {
+        $lookup: {
+          from: 'users', // Replace with the actual collection name for user data
+          localField: 'userId', // Assuming "userId" is the field in PostModel that links to users
+          foreignField: '_id', // Assuming user documents have "_id" field
+          as: 'user',
+        },
+      },
+      {
+        $unwind: '$user',
+      },
       {
         $project: {
-          likes: {
-            $cond: {
-              if: {$gt: [{$size: '$likes'}, 0]},
-              then: '$likes',
-              else: '$$REMOVE',
-            },
-          },
-          isLike: 1,
-          description: 1,
-          media: 1,
-          createdAt: 1,
-          updatedAt: 1,
+          likes: 0,
+          'user.password': 0,
+          'user.token': 0,
+          'user.isDeleted': 0,
+          'user.links': 0,
+          'user.deviceType': 0,
+          'user.fcmToken': 0,
         },
       },
       {
@@ -95,7 +122,6 @@ const allPosts = async (req, res) => {
         $sort: {createdAt: -1},
       },
     ]);
-
     res.send({
       data: result,
       status: true,
@@ -108,7 +134,37 @@ const allPosts = async (req, res) => {
   }
 };
 
+const myPosts = async (req, res) => {
+  const limit = parseInt(req.query.limit) || 10;
+  const page = parseInt(req.query.page) || 1;
+  const userId = req.query.userId;
+
+  const totalPots = await PostModel.countDocuments({userId});
+
+  // console.log("totalPots",totalPots)
+
+  const totalPages = Math.ceil(totalPots / limit);
+  const startIndex = (page - 1) * limit;
+  try {
+    const result = await PostModel.find({userId})
+      .populate({path: 'userId', select: 'userName fullName'})
+      .skip(startIndex)
+      .limit(limit)
+      .exec();
+    res.send({
+      data: result,
+      status: true,
+      currentPage: page,
+      totalPages: totalPages,
+    });
+  } catch (error) {
+    res.status(403).json({status: false, error: error});
+  }
+};
+
 module.exports = {
   createPost,
   allPosts,
+  fileUpload,
+  myPosts,
 };
