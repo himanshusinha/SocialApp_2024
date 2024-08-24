@@ -49,18 +49,19 @@ const SignupScreen = () => {
     setIsLoading(true);
 
     const payload = {
-      userName,
-      fullName,
-      email,
-      password,
+      userName: userName,
+      fullName: fullName,
+      email: email,
+      password: password,
     };
 
     try {
       const res = await dispatch(signupAsyncThunk(payload)).unwrap();
-
       setIsLoading(false);
-      showSucess('Signup successful!'); 
-      navigation.navigate(navigationStrings.OTP_VERIFICATION_SCREEN);
+      showSucess('Signup successful!');
+      navigation.navigate(navigationStrings.OTP_VERIFICATION_SCREEN, {
+        email: res?.data?.email,
+      });
     } catch (error) {
       let errorMessage = 'User already exists';
       setIsLoading(false);

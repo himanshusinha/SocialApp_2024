@@ -1,6 +1,7 @@
 export const ASYNC_ROUTES = {
   LOGIN: 'login',
   SIGN_UP: 'signup',
+  OTP_VERIFY: 'otpVerify',
   SAVE_LANGUAGE: 'save_language',
   SAVE_THEME: 'save_theme',
 };

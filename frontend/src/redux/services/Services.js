@@ -38,3 +38,23 @@ export const signupService = data => {
       });
   });
 };
+
+export const otpVerifyService = data => {
+  return new Promise((resolve, reject) => {
+    const config = {
+      url: SERVICE_ROUTES.OTP_VERIFY,
+      method: METHODS.POST,
+      data,
+    };
+
+    Axios.request(config)
+      .then(res => {
+        console.log(res, '.......response from signup services');
+        resolve(res);
+      })
+      .catch(err => {
+        console.error(err); // Added to log errors more clearly
+        reject(err);
+      });
+  });
+};

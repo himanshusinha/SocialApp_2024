@@ -1,6 +1,7 @@
 export const SERVICE_ROUTES = {
   LOGIN: '/login',
   SIGN_UP: '/signup',
+  OTP_VERIFY: '/otpVerify',
 };
 export const METHODS = {
   GET: 'GET',

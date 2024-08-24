@@ -13,21 +13,18 @@ import {loginAsyncThunk} from '../../redux/asyncThunk/AsyncThunk';
 import validator from '../../utils/validations';
 import {showError, showSucess} from '../../utils/helperFunction';
 import {useDispatch} from 'react-redux';
+import navigationStrings from '../../navigations/navigationStrings';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [secureText, setSecureText] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [token, setToken] = useState('');
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const isValidData = () => {
-    const error = validator({
-      email,
-      password,
-    });
 
+  const isValidData = () => {
+    const error = validator({email, password});
     if (error) {
       showError(error);
       return false;
@@ -36,33 +33,30 @@ const LoginScreen = () => {
   };
 
   const onPressLogin = async () => {
-    const checkValid = isValidData();
-
-    if (!checkValid) return;
+    if (!isValidData()) return;
 
     setIsLoading(true);
 
-    const payload = {
-      email,
-      password,
-    };
-
+    const payload = {email, password};
     try {
       const res = await dispatch(loginAsyncThunk(payload)).unwrap();
-      await setToken(res.data.token, '.....token');
+      console.log('Login response:', res); // Check the response structure
+
       setIsLoading(false);
+      if (!!res.data && !res?.data?.validOTP) {
+        navigation.navigate(navigationStrings.OTP_VERIFICATION, {
+          email: res?.data?.email,
+        });
+        return;
+      }
       showSucess('Login successful!');
     } catch (error) {
       let errorMessage = 'Invalid email or password';
-      setIsLoading(false);
-
       if (error.response) {
         errorMessage = error.response.data?.message || errorMessage;
       } else if (error.message) {
         errorMessage = error.message;
       }
-
-      console.log('Error raised:', error);
       showError(errorMessage);
       setIsLoading(false);
     }
@@ -71,7 +65,6 @@ const LoginScreen = () => {
   return (
     <WrapperContainer>
       <HeaderComp />
-
       <KeyboardAwareScrollView
         contentContainerStyle={styles.scrollViewContent}
         keyboardShouldPersistTaps="handled">
@@ -90,19 +83,19 @@ const LoginScreen = () => {
               <TextInputComp
                 value={email}
                 placeholder={strings.EMAIL}
-                onChangeText={value => setEmail(value)}
-                autoCapitalize={'none'}
+                onChangeText={setEmail}
+                autoCapitalize="none"
                 autoCorrect={false}
               />
 
               <TextInputComp
                 value={password}
                 placeholder={strings.PASSWORD}
-                onChangeText={value => setPassword(value)}
+                onChangeText={setPassword}
                 secureTextEntry={secureText}
                 secureText={secureText ? strings.SHOW : strings.HIDE}
                 onPressSecure={() => setSecureText(!secureText)}
-                autoCapitalize={'none'}
+                autoCapitalize="none"
                 autoCorrect={false}
               />
 

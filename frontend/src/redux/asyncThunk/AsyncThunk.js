@@ -1,6 +1,10 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {ASYNC_ROUTES} from '../constants/redux.constant';
-import {loginService, signupService} from '../services/Services';
+import {
+  loginService,
+  otpVerifyService,
+  signupService,
+} from '../services/Services';
 import {storeData} from '../../utils/helperFunction';
 
 export const loginAsyncThunk = createAsyncThunk(
@@ -19,6 +23,17 @@ export const signupAsyncThunk = createAsyncThunk(
   async (payload, {rejectWithValue}) => {
     try {
       const response = await signupService(payload);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+export const OtpVerifyAsyncThunk = createAsyncThunk(
+  ASYNC_ROUTES.OTP_VERIFY,
+  async (payload, {rejectWithValue}) => {
+    try {
+      const response = await otpVerifyService(payload);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
