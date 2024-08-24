@@ -49,7 +49,7 @@ const LoginScreen = () => {
         });
         return;
       }
-      showSucess('Login successful!');
+      showSucess(`Welcome ${res.data.userName}`);
     } catch (error) {
       let errorMessage = 'Invalid email or password';
       if (error.response) {

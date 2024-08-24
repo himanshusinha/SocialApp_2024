@@ -17,6 +17,8 @@ import MultiTextInput from '../../components/MultiTextInput';
 import ButtonComp from '../../components/ButttonComp';
 import ModalComp from '../../components/ModalComp';
 import styles from './styles';
+import {resetAuthState} from '../../redux/slices/auth_slices';
+import {useDispatch} from 'react-redux';
 
 // create a component
 const ProfileEditScreen = ({navigation}) => {
@@ -27,9 +29,12 @@ const ProfileEditScreen = ({navigation}) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [secureText, setSecureText] = useState(true);
   const [showPassModal, setShowPassModal] = useState(false);
-
+  const dispatch = useDispatch();
   const onSave = () => {
     alert('dfdf');
+  };
+  const handleLogout = () => {
+    dispatch(resetAuthState());
   };
 
   return (
@@ -93,6 +98,17 @@ const ProfileEditScreen = ({navigation}) => {
               backgroundColor: 'transparent',
               borderWidth: 0.5,
               borderColor: colors.whiteColor,
+              marginTop: moderateScaleVertical(16),
+            }}
+          />
+
+          <ButtonComp
+            text={strings.LOGOUT}
+            onPress={handleLogout}
+            style={{
+              backgroundColor: 'transparent',
+              borderWidth: 0.5,
+              borderColor: colors.redColor,
               marginTop: moderateScaleVertical(16),
             }}
           />

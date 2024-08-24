@@ -64,9 +64,9 @@ const OtpVerification = () => {
       const res = await dispatch(OtpVerifyAsyncThunk(payload)).unwrap();
       if (!!res?.data) {
         dispatch(setAuthenticated(res.data.token));
+        navigation.navigate(navigationStrings.LOGIN_SCREEN);
       }
       setIsLoading(false);
-      showSucess('Login successful!');
     } catch (error) {
       let errorMessage = 'Invalid otp';
       if (error.response) {
