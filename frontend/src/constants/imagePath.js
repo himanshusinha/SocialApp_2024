@@ -35,4 +35,5 @@ export default {
   error: require('../assets/images/error.png'),
   warning: require('../assets/images/warning.png'),
   info: require('../assets/images/info.png'),
+  icDelete: require('../assets/images/delete.png'),
 };

@@ -41,7 +41,6 @@ const SignupScreen = () => {
     }
     return true;
   };
-
   const onPressSignup = async () => {
     const checkValid = isValidData();
 
@@ -61,31 +60,27 @@ const SignupScreen = () => {
       const userId = res?.data?._id;
       const token = res?.data?.token;
 
-      if (userId) {
+      if (userId && token) {
         // Save userId and token in AsyncStorage
         await AsyncStorage.setItem('userId', userId);
-      }
-      if (token) {
-        // Save token in AsyncStorage
         await AsyncStorage.setItem('token', token);
+        showSucess('Signup successful!');
+        navigation.navigate(navigationStrings.OTP_VERIFICATION_SCREEN, {
+          email: res?.data?.email,
+        });
+      } else {
+        throw new Error('Failed to retrieve userId or token from response');
       }
-      setIsLoading(false);
-      showSucess('Signup successful!');
-      navigation.navigate(navigationStrings.OTP_VERIFICATION_SCREEN, {
-        email: res?.data?.email,
-      });
     } catch (error) {
       let errorMessage = 'User already exists';
-      setIsLoading(false);
-
       if (error.response) {
         errorMessage = error.response.data?.message || errorMessage;
       } else if (error.message) {
         errorMessage = error.message;
       }
-
-      console.log('Error raised:', error);
       showError(errorMessage);
+      console.log('Error raised:', error);
+    } finally {
       setIsLoading(false);
     }
   };

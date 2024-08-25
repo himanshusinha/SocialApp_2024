@@ -33,14 +33,15 @@ const ProfileEditScreen = ({navigation}) => {
   const onSave = () => {
     alert('dfdf');
   };
-  const handleLogout = () => {
+  const handleLogout = async () => {
     dispatch(resetAuthState());
+    await AsyncStorage.clear();
   };
-
   return (
     <WrapperContainer>
       <View style={{flex: 1, padding: moderateScale(16)}}>
         <HeaderComp
+          isLeftImage={true} // This will ensure the left arrow image is shown
           leftText={strings.EDIT_PROFILE}
           rightText={strings.SAVE}
           onPressRight={onSave}

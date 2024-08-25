@@ -31,9 +31,11 @@ const HeaderComp = ({
             onPress={!!onPressLeft ? onPressLeft : () => navigation.goBack()}>
             <Image
               style={{
-                tintColor: (selectedTheme = colors.themeColor),
+                tintColor: colors.whiteColor,
               }}
               source={imagePath.icBack}
+              onError={() => console.log('Image failed to load')}
+              onLoad={() => console.log('Image loaded successfully')}
             />
           </TouchableOpacity>
         ) : null}

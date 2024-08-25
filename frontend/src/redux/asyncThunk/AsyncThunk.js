@@ -1,6 +1,8 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {ASYNC_ROUTES} from '../constants/redux.constant';
 import {
+  addCommentService,
+  deleteCommentService,
   getAllPostsService,
   loginService,
   otpVerifyService,
@@ -53,6 +55,41 @@ export const getAllPostAsyncThunk = createAsyncThunk(
     }
   },
 );
+export const getAllCommentAsyncThunk = createAsyncThunk(
+  ASYNC_ROUTES.POST_COMMENTS,
+  async ({postId, page, limit}, {rejectWithValue}) => {
+    try {
+      const response = await getAllCommentsService({postId, page, limit});
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+export const addCommentAsyncThunk = createAsyncThunk(
+  ASYNC_ROUTES.ADD_COMMENTS, // Define your action type
+  async ({postId, userId, comment}, {rejectWithValue}) => {
+    try {
+      const response = await addCommentService({postId, userId, comment});
+      return response; // Return the response data as payload
+    } catch (error) {
+      console.error('Failed to add comment:', error.message);
+      return rejectWithValue(error.message); // Reject with error message
+    }
+  },
+);
+export const deleteCommentAsyncThunk = createAsyncThunk(
+  ASYNC_ROUTES.DELETE_COMMENTS,
+  async ({userId, commentId}, {rejectWithValue}) => {
+    try {
+      const response = await deleteCommentService({userId, commentId});
+      return response.data; // Assuming the response contains the updated data
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 export const changeAppLanguage = createAsyncThunk(
   ASYNC_ROUTES.SAVE_LANGUAGE,
   async (language, {rejectWithValue}) => {

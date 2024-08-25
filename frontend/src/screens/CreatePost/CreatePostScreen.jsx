@@ -172,7 +172,7 @@ const CreatePost = () => {
     <WrapperContainer>
       <HeaderComp
         leftText="Add post"
-        isLeftImage={false}
+        isLeftImage={true}
         rightText="Next"
         onPressRight={onNext}
       />

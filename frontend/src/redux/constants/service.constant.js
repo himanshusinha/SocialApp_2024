@@ -4,6 +4,9 @@ export const SERVICE_ROUTES = {
   OTP_VERIFY: '/otpVerify',
   CREATE_POSTS: '/createPost',
   ALL_POSTS: '/allPost',
+  ADD_COMMENTS: '/addComment',
+  DELETE_COMMENTS: '/deleteComment',
+  POST_COMMENTS: '/postComments',
 };
 export const METHODS = {
   GET: 'GET',
