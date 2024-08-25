@@ -119,32 +119,38 @@ export const addCommentService = async ({postId, userId, comment}) => {
   }
 };
 
-export const getAllCommentService = async ({postId, page, limit}) => {
+export const getAllCommentsService = async ({postId, page, limit}) => {
   try {
-    const token = await AsyncStorage.getItem('token');
-    console.log('Retrieved Token:', token);
+    const token = await AsyncStorage.getItem('token'); // Retrieve token from AsyncStorage
+    if (!token) {
+      throw new Error('Token not found');
+    }
 
     const config = {
-      url: SERVICE_ROUTES.POST_COMMENTS,
-      method: METHODS.GET,
+      url: SERVICE_ROUTES.POST_COMMENTS, // Ensure this is correctly defined in your constants
+      method: METHODS.GET, // Ensure this is correctly defined in your constants
       params: {postId, page, limit},
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`, // Include token in headers
       },
     };
 
     const response = await Axios.request(config);
-    console.log('API Response:', response);
+    console.log('API Response:', response); // Log response for debugging
     return response;
   } catch (err) {
     if (err.response) {
       console.error('API Error Response:', err.response);
+      throw new Error(
+        `API Error: ${err.response.data.message || err.response.statusText}`,
+      );
     } else if (err.request) {
       console.error('API Error Request:', err.request);
+      throw new Error('API Error: No response received');
     } else {
       console.error('API Error Message:', err.message);
+      throw new Error(`API Error: ${err.message}`);
     }
-    throw err;
   }
 };
 export const deleteCommentService = async ({userId, commentId}) => {

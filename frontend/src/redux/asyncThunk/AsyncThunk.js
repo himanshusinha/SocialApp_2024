@@ -3,6 +3,7 @@ import {ASYNC_ROUTES} from '../constants/redux.constant';
 import {
   addCommentService,
   deleteCommentService,
+  getAllCommentService,
   getAllPostsService,
   loginService,
   otpVerifyService,
@@ -59,7 +60,7 @@ export const getAllCommentAsyncThunk = createAsyncThunk(
   ASYNC_ROUTES.POST_COMMENTS,
   async ({postId, page, limit}, {rejectWithValue}) => {
     try {
-      const response = await getAllCommentsService({postId, page, limit});
+      const response = await getAllCommentService({postId, page, limit});
       return response.data;
     } catch (error) {
       return rejectWithValue(error.message);

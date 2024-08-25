@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -22,10 +22,7 @@ import {
   moderateScaleVertical,
 } from '../../styles/responsiveSize';
 import moment from 'moment';
-import {
-  addCommentAsyncThunk,
-  deleteCommentAsyncThunk,
-} from '../../redux/asyncThunk/AsyncThunk';
+import {addCommentAsyncThunk} from '../../redux/asyncThunk/AsyncThunk';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
@@ -35,9 +32,9 @@ const PostDetailsScreen = ({navigation, route}) => {
   const [userId, setUserId] = useState('');
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(true);
+  console.log(comments?._id, '.......comments');
   const {item} = route.params;
   const dispatch = useDispatch();
-
   useEffect(() => {
     if (item && item.user) {
       setName(item.user.userName);
@@ -51,6 +48,7 @@ const PostDetailsScreen = ({navigation, route}) => {
         const token = await AsyncStorage.getItem('token');
 
         if (storedUserId && token) {
+          console.log('User ID:', storedUserId);
           setUserId(storedUserId);
 
           const response = await axios.get(
@@ -66,9 +64,6 @@ const PostDetailsScreen = ({navigation, route}) => {
               },
             },
           );
-
-          // Debugging: Check API response
-          console.log('API Response:', response.data);
 
           setComments(response.data.data || []);
         } else {
@@ -89,13 +84,56 @@ const PostDetailsScreen = ({navigation, route}) => {
 
   const handleDeleteComment = async commentId => {
     try {
-      await dispatch(deleteCommentAsyncThunk({userId, commentId})).unwrap();
-      setComments(prevComments =>
-        prevComments.filter(comment => comment._id !== commentId),
-      );
+      const token = await AsyncStorage.getItem('token');
+      if (!token) throw new Error('Token not found');
+
+      // Send delete request to the API
+      await axios.delete('http://localhost:3000/deleteComment', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: {
+          userId: userId,
+          commentId: commentId,
+        },
+      });
+
+      console.log('Comment deleted successfully');
+
+      // Fetch updated comments
+      fetchComments();
     } catch (error) {
       console.error(
         'Failed to delete comment:',
+        error.response ? error.response.data : error.message,
+      );
+    }
+  };
+
+  const fetchComments = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const storedUserId = await AsyncStorage.getItem('userId');
+
+      if (!token || !storedUserId)
+        throw new Error('Token or User ID not found');
+
+      const response = await axios.get('http://localhost:3000/postComments', {
+        params: {
+          postId: item?._id,
+          page: 1,
+          limit: 10,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setComments(response.data.data || []);
+    } catch (error) {
+      console.error(
+        'Failed to fetch comments:',
         error.response ? error.response.data : error.message,
       );
     }
@@ -136,19 +174,18 @@ const PostDetailsScreen = ({navigation, route}) => {
     </Pressable>
   );
 
-  const emptyComp = () =>
-    comments.length === 0 ? (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <TextComp
-          text={strings.NO_COMMENT_ADDED}
-          style={{
-            ...styles.descStyle,
-            marginVertical: moderateScaleVertical(12),
-            color: colors.whiteColor,
-          }}
-        />
-      </View>
-    ) : null;
+  const emptyComp = () => (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <TextComp
+        text={strings.NO_COMMENT_ADDED}
+        style={{
+          ...styles.descStyle,
+          marginVertical: moderateScaleVertical(12),
+          color: colors.whiteColor,
+        }}
+      />
+    </View>
+  );
 
   const headerComp = () => (
     <View style={[styles.boxStyle]}>
@@ -199,8 +236,7 @@ const PostDetailsScreen = ({navigation, route}) => {
       />
     </View>
   );
-
-  const handleSendComment = async () => {
+  const handleSendComment = useCallback(async () => {
     if (commentText.trim()) {
       try {
         await dispatch(
@@ -220,7 +256,7 @@ const PostDetailsScreen = ({navigation, route}) => {
         console.error('Failed to add comment:', error);
       }
     }
-  };
+  }, [dispatch, item?._id, userId, commentText]);
 
   return (
     <WrapperContainer>
@@ -230,7 +266,7 @@ const PostDetailsScreen = ({navigation, route}) => {
         <FlatList
           data={comments}
           renderItem={renderItem}
-          keyExtractor={item => String(item._id)}
+          keyExtractor={(item, index) => String(item._id)}
           ListEmptyComponent={emptyComp}
           ListHeaderComponent={headerComp}
           ItemSeparatorComponent={() => (
