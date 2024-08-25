@@ -184,3 +184,30 @@ export const deleteCommentService = async ({userId, commentId}) => {
     throw err;
   }
 };
+
+export const createPostService = async formData => {
+  const token = await AsyncStorage.getItem('token');
+  if (!token) throw new Error('Token not found');
+
+  try {
+    const response = await Axios({
+      url: SERVICE_ROUTES.CREATE_POSTS,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      },
+      data: formData,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error creating post:', {
+      message: error.message,
+      stack: error.stack,
+      response: error.response ? error.response.data : 'No response data',
+      request: error.request ? error.request : 'No request data',
+    });
+    throw error; // Re-throw the error for further handling
+  }
+};

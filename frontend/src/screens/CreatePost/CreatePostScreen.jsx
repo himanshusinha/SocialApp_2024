@@ -25,6 +25,8 @@ import navigationStrings from '../../navigations/navigationStrings';
 import ImagePicker from 'react-native-image-crop-picker';
 import {useNavigation} from '@react-navigation/native';
 import styles from './styles';
+import {useDispatch} from 'react-redux';
+import {creatPostAsyncThunk} from '../../redux/asyncThunk/AsyncThunk';
 
 // create a component
 const CreatePost = () => {
@@ -32,6 +34,7 @@ const CreatePost = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [currentImage, setCurrentImage] = useState({});
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   async function hasAndroidPermission() {
     const getCheckPermissionPromise = () => {
       if (Platform.Version >= 33) {
@@ -116,7 +119,31 @@ const CreatePost = () => {
       setSelectedImages(cloneSelectImg);
     }
   };
+  const onNext = async () => {
+    const formData = new FormData();
 
+    selectedImages.forEach((item, index) => {
+      if (item?.image?.uri) {
+        formData.append('file', {
+          uri: item.image.uri.replace('file://', ''), // Handle local URI
+          type: item.image.mime || 'application/octet-stream',
+          name: item.image.filename || `file${index}.jpg`,
+        });
+      } else {
+        console.error('Invalid image item:', item);
+      }
+    });
+
+    try {
+      const response = await dispatch(creatPostAsyncThunk(formData));
+      navigation.navigate(navigationStrings.ADD_POST_SCREEN, {selectedImages});
+    } catch (error) {
+      console.error(
+        'Error sending images:',
+        error.response?.data || error.message,
+      );
+    }
+  };
   const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity
@@ -148,10 +175,6 @@ const CreatePost = () => {
         ) : null}
       </View>
     );
-  };
-
-  const onNext = () => {
-    navigation.navigate(navigationStrings.ADD_POST_SCREEN, {selectedImages});
   };
 
   const onPressCamera = () => {

@@ -3,6 +3,7 @@ export const ASYNC_ROUTES = {
   SIGN_UP: 'signup',
   OTP_VERIFY: 'otpVerify',
   CREATE_POSTS: 'createPosts',
+  FILE_UPLOAD: 'upload',
   ADD_COMMENTS: 'addComments',
   DELETE_COMMENTS: 'deleteComments',
   POST_COMMENTS: 'postComments',

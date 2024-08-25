@@ -3,6 +3,7 @@ export const SERVICE_ROUTES = {
   SIGN_UP: '/signup',
   OTP_VERIFY: '/otpVerify',
   CREATE_POSTS: '/createPost',
+  FILE_UPLOAD: '/upload',
   ALL_POSTS: '/allPost',
   ADD_COMMENTS: '/addComment',
   DELETE_COMMENTS: '/deleteComment',
