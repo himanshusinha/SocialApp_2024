@@ -65,3 +65,4 @@ yarn-error.log
 
 # Environment variables
 
+backend/.env
