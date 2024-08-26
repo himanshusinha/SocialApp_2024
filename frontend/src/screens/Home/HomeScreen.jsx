@@ -24,20 +24,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';
 import {useNavigation} from '@react-navigation/native';
 import navigationStrings from '../../navigations/navigationStrings';
-
+import {useDispatch} from 'react-redux';
+import {likeDislikeAsyncThunk} from '../../redux/asyncThunk/AsyncThunk';
 const HomeScreen = () => {
   const [posts, setPosts] = useState([]); // State to store posts
   const [loading, setLoading] = useState(true); // State for loading indicator
   const [userId, setUserId] = useState('');
   const [error, setError] = useState(null); // State for error handling
   const navigation = useNavigation();
+  const [likedPosts, setLikedPosts] = useState(new Set());
 
+  const dispatch = useDispatch();
   const onPresPost = item => {
     navigation.navigate(navigationStrings.POST_DETAILS_SCREEN, {item: item});
   };
-
+  const posts_Id = posts.map(posts => posts?._id);
+  console.log(posts_Id, '.......postIdsss');
   useEffect(() => {
-    // Function to fetch userId and posts from the API
     const fetchUserIdAndPosts = async () => {
       try {
         const storedUserId = await AsyncStorage.getItem('userId');
@@ -58,7 +61,7 @@ const HomeScreen = () => {
               Authorization: `Bearer ${token}`, // Include token in headers
             },
           });
-
+          console.log(posts?._id, '........posts data');
           setPosts(response.data.data || []); // Update state with fetched posts
         } else {
           throw new Error('User ID or token not found');
@@ -76,13 +79,30 @@ const HomeScreen = () => {
 
     fetchUserIdAndPosts(); // Call the function to fetch userId and posts on component mount
   }, []); // Empty dependency array ensures this effect runs only once
+  const handleLikeDislike = async postId => {
+    try {
+      await dispatch(likeDislikeAsyncThunk({postId, userId}));
 
+      setLikedPosts(prev => {
+        const updatedLikes = new Set(prev);
+        updatedLikes.has(postId)
+          ? updatedLikes.delete(postId)
+          : updatedLikes.add(postId);
+        return updatedLikes;
+      });
+    } catch (error) {
+      console.error('Error handling like/dislike:', error);
+    }
+  };
   const renderItem = useCallback(({item}) => {
-    // Handle media URLs if they exist
-    const mediaUrl =
-      item.media.length > 0
-        ? item.media[0]
-        : 'https://example.com/default-image.jpg';
+    console.log(item, '.....homescreen');
+    const heartColor = item.isLike ? colors.redColor : colors.blackColor;
+    // Handle media URLs based on media type
+    const media = item.media.length > 0 ? item.media[0] : null;
+    const mediaUrl = media
+      ? media.url
+      : 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png';
+    const isImage = media && media.type === 'image';
 
     return (
       <Pressable style={styles.boxStyle} onPress={() => onPresPost(item)}>
@@ -90,29 +110,32 @@ const HomeScreen = () => {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
+            flex: 1,
             justifyContent: 'space-between',
           }}>
-          <View style={{flexDirection: 'row', alignItems: 'center', flex: 1}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
             <FastImageComp
               url={item?.user?.profileImage}
               imageStyle={styles.profileImage}
             />
             <View>
-              <TextComp text={item?.user?.userName} style={styles.nameStyle} />
-              <TextComp
-                text={item?.user?.bio || 'No bio'}
-                style={{
-                  ...styles.bioStyle,
-                  color: colors.whiteColor,
-                }}
-              />
+              <TextComp text={item?.user?.fullName} style={styles.nameStyle} />
             </View>
           </View>
           <TouchableOpacity activeOpacity={0.7}>
             <Image source={imagePath.icDots} />
           </TouchableOpacity>
         </View>
-        <FastImageComp url={mediaUrl} imageStyle={styles.postImage} />
+
+        {isImage && (
+          <FastImageComp url={mediaUrl} imageStyle={styles.postImage} />
+        )}
+
         <TextComp text={item.description} style={styles.descStyle} />
         <TextComp
           text={moment(item.createdAt).fromNow()}
@@ -132,10 +155,12 @@ const HomeScreen = () => {
               text={`Likes ${item.likeCount}`}
               style={styles.descStyle}
             />
+            <TouchableOpacity
+              onPress={() => handleLikeDislike(item._id)}
+              activeOpacity={0.7}>
+              <Image tintColor={heartColor} source={imagePath.icHeart} />
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity activeOpacity={0.7}>
-            <Image source={imagePath.icShare} />
-          </TouchableOpacity>
         </View>
       </Pressable>
     );

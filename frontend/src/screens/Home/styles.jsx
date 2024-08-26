@@ -68,6 +68,15 @@ const styles = StyleSheet.create({
   commentText: {
     marginRight: moderateScale(8),
   },
+  videoContainer: {
+    width: '100%',
+    height: 200, // Adjust height as needed
+    backgroundColor: 'black', // Optional: to give a background to the video container
+  },
+  video: {
+    width: '100%',
+    height: '100%',
+  },
 });
 
 export default styles;

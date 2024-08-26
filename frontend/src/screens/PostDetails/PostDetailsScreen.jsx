@@ -32,12 +32,11 @@ const PostDetailsScreen = ({navigation, route}) => {
   const [userId, setUserId] = useState('');
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(true);
-  console.log(comments?._id, '.......comments');
   const {item} = route.params;
   const dispatch = useDispatch();
   useEffect(() => {
     if (item && item.user) {
-      setName(item.user.userName);
+      setName(item.user.fullName);
     }
   }, [item]);
 
@@ -82,63 +81,6 @@ const PostDetailsScreen = ({navigation, route}) => {
     fetchUserIdAndComments();
   }, [item]);
 
-  const handleDeleteComment = async commentId => {
-    try {
-      const token = await AsyncStorage.getItem('token');
-      if (!token) throw new Error('Token not found');
-
-      // Send delete request to the API
-      await axios.delete('http://localhost:3000/deleteComment', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        data: {
-          userId: userId,
-          commentId: commentId,
-        },
-      });
-
-      console.log('Comment deleted successfully');
-
-      // Fetch updated comments
-      fetchComments();
-    } catch (error) {
-      console.error(
-        'Failed to delete comment:',
-        error.response ? error.response.data : error.message,
-      );
-    }
-  };
-
-  const fetchComments = async () => {
-    try {
-      const token = await AsyncStorage.getItem('token');
-      const storedUserId = await AsyncStorage.getItem('userId');
-
-      if (!token || !storedUserId)
-        throw new Error('Token or User ID not found');
-
-      const response = await axios.get('http://localhost:3000/postComments', {
-        params: {
-          postId: item?._id,
-          page: 1,
-          limit: 10,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setComments(response.data.data || []);
-    } catch (error) {
-      console.error(
-        'Failed to fetch comments:',
-        error.response ? error.response.data : error.message,
-      );
-    }
-  };
-
   const renderItem = ({item}) => (
     <Pressable
       style={[
@@ -158,13 +100,6 @@ const PostDetailsScreen = ({navigation, route}) => {
         <View style={{flex: 1}}>
           <TextComp text={name} />
         </View>
-        <Pressable onPress={() => handleDeleteComment(item?._id)}>
-          <Image
-            resizeMode="contain"
-            source={imagePath.icDelete}
-            style={styles.deleteImage}
-          />
-        </Pressable>
       </View>
       <TextComp
         text={moment(item.createdAt).fromNow()}
