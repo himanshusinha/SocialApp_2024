@@ -59,6 +59,44 @@ export const otpVerifyService = data => {
   });
 };
 
+export const likeDislikeService = async ({postId}) => {
+  const userId = await AsyncStorage.getItem('userId');
+
+  console.log('postId:', postId); // Ensure this logs correctly
+  console.log('userId:', userId); // Ensure this logs correctly
+
+  if (!postId || !userId) {
+    throw new Error('Both postId and userId are required');
+  }
+
+  try {
+    const token = await AsyncStorage.getItem('token'); // Await token retrieval
+
+    if (!token) {
+      throw new Error('Token not found');
+    }
+
+    const config = {
+      url: SERVICE_ROUTES.LIKE_DISLIKE,
+      method: METHODS.POST,
+      data: {postId, userId}, // Ensure data is correctly structured
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const response = await Axios.request(config); // Await Axios request
+    console.log(response, '.......response from likeDislikeService');
+    return response; // Resolve with response directly
+  } catch (err) {
+    console.error(
+      'Error in likeDislikeService:',
+      err.response ? err.response.data : err.message,
+    ); // Enhanced error logging
+    throw err; // Rethrow the error to be caught in the thunk
+  }
+};
+
 export const getAllPostsService = async ({userId, page, limit}) => {
   try {
     const token = await AsyncStorage.getItem('token');
@@ -66,6 +104,34 @@ export const getAllPostsService = async ({userId, page, limit}) => {
 
     const config = {
       url: SERVICE_ROUTES.ALL_POSTS,
+      method: METHODS.GET,
+      params: {userId, page, limit},
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const response = await Axios.request(config);
+    console.log('API Response:', response);
+    return response;
+  } catch (err) {
+    if (err.response) {
+      console.error('API Error Response:', err.response);
+    } else if (err.request) {
+      console.error('API Error Request:', err.request);
+    } else {
+      console.error('API Error Message:', err.message);
+    }
+    throw err;
+  }
+};
+export const myAllPostsService = async ({userId, page, limit}) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    console.log('Retrieved Token:', token);
+
+    const config = {
+      url: SERVICE_ROUTES.MY_POSTS,
       method: METHODS.GET,
       params: {userId, page, limit},
       headers: {
@@ -186,12 +252,52 @@ export const deleteCommentService = async ({userId, commentId}) => {
 };
 
 export const createPostService = async formData => {
+  try {
+    // Retrieve the authentication token from AsyncStorage
+    const token = await AsyncStorage.getItem('token');
+    if (!token) {
+      throw new Error('Token not found');
+    }
+
+    // Ensure the formData includes all required fields
+    if (!formData || !(formData instanceof FormData)) {
+      throw new Error('Invalid form data');
+    }
+
+    // Make the POST request with Axios
+    const response = await Axios({
+      url: SERVICE_ROUTES.CREATE_POSTS,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`, // Include the token in the headers
+      },
+      data: formData, // Send the form data
+    });
+
+    // Return the response data
+    return response.data;
+  } catch (error) {
+    // Detailed error logging
+    console.error('Error creating post:', {
+      message: error.message,
+      stack: error.stack,
+      response: error.response ? error.response.data : 'No response data',
+      request: error.request ? error.request : 'No request data',
+    });
+
+    // Throw the error to be handled by the calling code
+    throw error;
+  }
+};
+
+export const addPostService = async formData => {
   const token = await AsyncStorage.getItem('token');
   if (!token) throw new Error('Token not found');
 
   try {
     const response = await Axios({
-      url: SERVICE_ROUTES.CREATE_POSTS,
+      url: SERVICE_ROUTES.ADD_POSTS,
       method: 'POST',
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -208,6 +314,6 @@ export const createPostService = async formData => {
       response: error.response ? error.response.data : 'No response data',
       request: error.request ? error.request : 'No request data',
     });
-    throw error; // Re-throw the error for further handling
+    throw error;
   }
 };

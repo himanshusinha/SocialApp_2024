@@ -2,15 +2,21 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {ASYNC_ROUTES} from '../constants/redux.constant';
 import {
   addCommentService,
+  addPostService,
   createPostService,
   deleteCommentService,
   getAllCommentService,
   getAllPostsService,
+  likeDislikeService,
   loginService,
+  myAllPostsService,
   otpVerifyService,
   signupService,
 } from '../services/Services';
 import {storeData} from '../../utils/helperFunction';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Axios} from 'axios';
+import {SERVICE_ROUTES} from '../constants';
 
 export const loginAsyncThunk = createAsyncThunk(
   ASYNC_ROUTES.LOGIN,
@@ -57,6 +63,17 @@ export const getAllPostAsyncThunk = createAsyncThunk(
     }
   },
 );
+export const myAllPostAsyncThunk = createAsyncThunk(
+  ASYNC_ROUTES.MY_POSTS,
+  async ({userId, page, limit}, {rejectWithValue}) => {
+    try {
+      const response = await myAllPostsService({userId, page, limit});
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
 export const getAllCommentAsyncThunk = createAsyncThunk(
   ASYNC_ROUTES.POST_COMMENTS,
   async ({postId, page, limit}, {rejectWithValue}) => {
@@ -91,6 +108,20 @@ export const deleteCommentAsyncThunk = createAsyncThunk(
     }
   },
 );
+export const likeDislikeAsyncThunk = createAsyncThunk(
+  ASYNC_ROUTES.LIKE_DISLIKE,
+  async ({postId, userId}, {rejectWithValue}) => {
+    try {
+      console.log('Post ID in Thunk:', postId);
+      console.log('User ID in Thunk:', userId);
+      const response = await likeDislikeService({postId, userId});
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 export const creatPostAsyncThunk = createAsyncThunk(
   ASYNC_ROUTES.CREATE_POSTS,
   async (formData, {rejectWithValue}) => {
@@ -109,6 +140,23 @@ export const creatPostAsyncThunk = createAsyncThunk(
   },
 );
 
+export const addPostAsyncThunk = createAsyncThunk(
+  ASYNC_ROUTES.ADD_POSTS,
+  async (formData, {rejectWithValue}) => {
+    try {
+      const data = await addPostService(formData);
+      return data;
+    } catch (error) {
+      console.error('Error in addPostAsyncThunk:', {
+        message: error.message,
+        stack: error.stack,
+      });
+      return rejectWithValue(
+        error.response ? error.response.data : error.message,
+      );
+    }
+  },
+);
 export const changeAppLanguage = createAsyncThunk(
   ASYNC_ROUTES.SAVE_LANGUAGE,
   async (language, {rejectWithValue}) => {

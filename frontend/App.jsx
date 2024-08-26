@@ -1,6 +1,6 @@
 import React from 'react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-export const baseurl = 'http://localhost:3000';
+const baseurl = 'http://localhost:3000';
 import axios from 'axios';
 import {PersistGate} from 'redux-persist/integration/react';
 import {Provider} from 'react-redux';

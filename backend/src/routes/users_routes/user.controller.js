@@ -114,15 +114,49 @@ const otpVerify = async (req, res) => {
 
 const fetchAllUsers = async (req, res) => {
   try {
-    const data = await UserModel.find({});
-    res.status(200).json({
+    let data = await UserModel.find({});
+    res.send({
       data: data,
       status: true,
     });
   } catch (error) {
-    console.error('Error raised:', error);
-    res.status(500).json({status: false, error: error.message});
+    res.status(403).json({status: false, error: error});
   }
 };
 
-module.exports = {createUser, loginUser, otpVerify, fetchAllUsers};
+const fetchUserDetails = async (req, res) => {
+  const {userId} = req.query;
+  try {
+    let data = await UserModel.findOne({_id: userId}).select('-password');
+    res.send({
+      data: data,
+      status: true,
+    });
+  } catch (error) {
+    res.status(403).json({status: false, error: error});
+  }
+};
+
+const fetchUsersByIds = async (req, res) => {
+  const userIds = req.query.userIds.split(','); // Convert the string to an array
+  console.log('userIdsuserIds', userIds);
+  try {
+    let data = await UserModel.find({_id: {$in: userIds}}).select('-password');
+    res.send({
+      data: data,
+      status: true,
+    });
+  } catch (error) {
+    console.log('error raised', error);
+    res.status(403).json({status: false, error: error});
+  }
+};
+
+module.exports = {
+  createUser,
+  loginUser,
+  otpVerify,
+  fetchAllUsers,
+  fetchUserDetails,
+  fetchUsersByIds,
+};

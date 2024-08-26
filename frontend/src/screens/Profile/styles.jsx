@@ -7,9 +7,10 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(8),
   },
   imgStyle: {
-    width: width / 3,
-    height: width / 3,
+    width: width / 3.5,
+    height: width / 3.5,
     borderWidth: 0.5,
+    bottom: moderateScale(24),
   },
 });
 

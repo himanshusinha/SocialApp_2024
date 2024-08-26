@@ -1,12 +1,9 @@
 //import liraries
-import React, {Component, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
-  Text,
-  StyleSheet,
   PermissionsAndroid,
   Platform,
-  Button,
   Image,
   TouchableOpacity,
 } from 'react-native';
@@ -29,7 +26,7 @@ import {useDispatch} from 'react-redux';
 import {creatPostAsyncThunk} from '../../redux/asyncThunk/AsyncThunk';
 
 // create a component
-const CreatePost = () => {
+const CreatePostScreen = () => {
   const [photos, setPhotos] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [currentImage, setCurrentImage] = useState({});
@@ -102,30 +99,33 @@ const CreatePost = () => {
 
   const onSelect = (item, index) => {
     let clonePhotos = [...photos];
-
     clonePhotos[index].isSelected = !item?.isSelected;
     setPhotos(clonePhotos);
-    setCurrentImage(item);
+    setCurrentImage(clonePhotos[index]);
 
     let cloneSelectImg = [...selectedImages];
-
     const indexItem = cloneSelectImg.findIndex(
       val => val.timestamp === item?.timestamp,
     );
     if (indexItem === -1) {
-      setSelectedImages(prev => [...prev, ...[item]]);
+      cloneSelectImg.push(item);
     } else {
       cloneSelectImg.splice(indexItem, 1);
-      setSelectedImages(cloneSelectImg);
     }
+    setSelectedImages(cloneSelectImg);
   };
-  const onNext = async () => {
-    const formData = new FormData();
 
+  const onNext = async () => {
+    if (selectedImages.length === 0) {
+      console.log('No images selected.');
+      return;
+    }
+
+    const formData = new FormData();
     selectedImages.forEach((item, index) => {
       if (item?.image?.uri) {
         formData.append('file', {
-          uri: item.image.uri.replace('file://', ''), // Handle local URI
+          uri: item.image.uri,
           type: item.image.mime || 'application/octet-stream',
           name: item.image.filename || `file${index}.jpg`,
         });
@@ -134,16 +134,21 @@ const CreatePost = () => {
       }
     });
 
+    console.log('Form Data:', formData);
+
     try {
       const response = await dispatch(creatPostAsyncThunk(formData));
+      console.log('Upload Response:', response);
       navigation.navigate(navigationStrings.ADD_POST_SCREEN, {selectedImages});
     } catch (error) {
-      console.error(
-        'Error sending images:',
-        error.response?.data || error.message,
-      );
+      console.error('Error sending images:', {
+        message: error.message,
+        response: error.response?.data || 'No response data',
+        stack: error.stack || 'No stack trace',
+      });
     }
   };
+
   const renderItem = ({item, index}) => {
     return (
       <TouchableOpacity
@@ -176,21 +181,37 @@ const CreatePost = () => {
       </View>
     );
   };
+  const adjustImageUri = uri => {
+    if (uri && uri.startsWith('file://')) {
+      return uri.replace('file://', '');
+    }
+    return uri;
+  };
 
   const onPressCamera = () => {
     ImagePicker.openPicker({
+      multiple: true, // Allow multiple selection
+      maxFiles: 4, // Set the maximum number of files
       width: 300,
       height: 400,
     })
-      .then(image => {
-        navigation.navigate(navigationStrings.ADD_POST, {
-          selectedImages: [{image: image}],
+      .then(images => {
+        console.log('Selected images:', images); // Debug log to verify image details
+        navigation.navigate(navigationStrings.ADD_POST_SCREEN, {
+          selectedImages: images.map(image => ({
+            image: {
+              uri: adjustImageUri(image.path), // Adjust URI if needed
+              type: image.mime,
+              name: image.filename,
+            },
+          })),
         });
       })
       .catch(error => {
-        console.log('error riased', error);
+        console.log('Error occurred:', error); // Debug log for errors
       });
   };
+
   return (
     <WrapperContainer>
       <HeaderComp
@@ -220,4 +241,4 @@ const CreatePost = () => {
   );
 };
 
-export default CreatePost;
+export default CreatePostScreen;
